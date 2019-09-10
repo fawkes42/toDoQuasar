@@ -1,16 +1,145 @@
 <template>
-  <div>
-
-  </div>
+  <section class="q-mt-md">
+    <div class="row col-md-12 justify-center q-gutter-md">
+      <q-btn icon="add" @click="novo" color="primary" flat round small />
+      <q-btn :label="mostrar ? 'Mostrar somente pendentes' : 'Mostrar todos'" @click="show" />
+    </div>
+    <section class="row justify-center q-mt-md">
+    <div class="col-md-8">
+        <q-list dense bordered padding class="rounded-borders q-mt-md" v-for="(item, index) in listaFiltrada" :key="index" :style="{'background-color': item.cor}">
+        <div class="col-12 q-gutter-md">
+          <q-item>
+            <q-item-section>
+              <div class="row">
+                <div class="col-12">
+                  <q-input rounded v-model="item.texto" color="secondary" @input="atualiza(item, 'texto')" label="Titulo da tarefa" />
+                </div>
+                <div class="col-12">
+                  <q-input type="textarea" rounded v-model="item.descricao" color="secondary" @input="atualiza(item, 'descricao')" label="Descrição da tarefa" />
+                </div>
+                <div class="col-12 q-mt-md">
+                  <div class="row col-12 justify-between">
+                    <div class="col-9">
+                      <q-btn icon="color_lens" round color="grey-8" flat small>
+                        <q-popup-proxy>
+                          <q-banner inline-actions rounded class="bg-grey-4 text-white">
+                            <div class="q-pa-lg">
+                                <q-option-group class="text-black" v-model="item.cor" :options="options" color="primary" inline dense @input="atualiza(item, 'cor')" />
+                              </div>
+                          </q-banner>
+                        </q-popup-proxy>
+                      </q-btn>
+                    </div>
+                    <div class="row col-3">
+                      <div class="col-6">
+                        <q-checkbox v-model="item.pronto" @input="atualiza(item, 'pronto')" :label="item.pronto ? 'Concluída' : 'Pendente'" color="grey-8"/>
+                      </div>
+                      <div class="col-6">
+                        <q-btn round flat small icon="delete" color="negative" @click="apaga(index)" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </q-item-section>
+          </q-item>
+        </div>
+      </q-list>
+    </div>
+    </section>
+  </section>
 </template>
 
 <script>
-  import ToDoList from 'components/ToDoList.vue'
-  export default {
-    components: { ToDoList }
+import firebase from 'firebase/app'
+import 'firebase/database'
+export default {
+  data () {
+    return {
+      title: 'Teste Vue.js',
+      mostrar: true,
+      lista: [],
+      options: [
+        {
+          label: 'Branco',
+          value: '#fff'
+        },
+        {
+          label: 'Azul',
+          value: '#64b5f6'
+        },
+        {
+          label: 'Vermelho',
+          value: '#e57373'
+        },
+        {
+          label: 'Amarelo',
+          value: '#fff176'
+        },
+        {
+          label: 'Verde',
+          value: '#aed581'
+        }
+      ]
+    }
+  },
+  methods: {
+    novo () {
+      let key = firebase.database().ref().child('tasks').push().key
+      firebase.database().ref('tasks/' + key).set({ texto: '', descricao: '', pronto: false, cor: '', key })
+    },
+    show () {
+      this.mostrar = !this.mostrar
+    },
+    apaga (i) {
+      firebase.database().ref('tasks/' + this.lista[i].key).remove()
+    },
+    atualiza (item, campo) {
+      firebase.database().ref('tasks/' + item.key + '/' + campo).set(item[campo])
+    },
+    carrega (snapshot) {
+      this.lista = []
+      let valores = snapshot.val()
+      for (let prop in valores) {
+        this.lista.push({
+          key: prop,
+          texto: valores[prop].texto,
+          descricao: valores[prop].descricao,
+          pronto: valores[prop].pronto,
+          cor: valores[prop].cor
+        })
+      }
+    }
+  },
+  computed: {
+    listaFiltrada () {
+      return this.mostrar ? this.lista : this.lista.filter(el => {
+        return !el.pronto
+      })
+    }
+  },
+  mounted () {
+  // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: 'AIzaSyB3TEPR45_pGvzofu8Oxj6iJ4dYWl0KHl4',
+      authDomain: 'to-do-list-d3aa5.firebaseapp.com',
+      databaseURL: 'https://to-do-list-d3aa5.firebaseio.com',
+      projectId: 'to-do-list-d3aa5',
+      storageBucket: 'to-do-list-d3aa5.appspot.com',
+      messagingSenderId: '832078297256',
+      appId: '1:832078297256:web:e8b3378c74d8261b'
+    }
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig)
+    firebase.database().ref('tasks').once('value').then(snapshot => {
+      this.carrega(snapshot)
+    })
+    firebase.database().ref('tasks').on('value', snapshot => {
+      this.carrega(snapshot)
+    })
   }
+}
 </script>
 
 <style>
-
 </style>
