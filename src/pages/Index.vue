@@ -1,20 +1,28 @@
 <template>
   <q-page class="flex flex-center">
+    <card>
+      <template #header>
+        <p><strong class="text-black q-ml-sm">Add a talk</strong></p>
+      </template>
+      <template #content>
+        <div class="flex horizontal-align q-gutter-sm">
+          <q-input rounded outlined bg-color="white" v-model="person" label="New chat with..." />
+          <q-btn round color="primary" icon="send" @click="newPerson(person)"/>
+        </div>
+      </template>
+      <template #footer>
+         <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="white"/>
+      </template>
+    </card>
     <div class="chat">
-      <div class="flex q-ml-lg q-mb-lg q-mt-sm q-gutter-md horizontal-align new-friend">
-        <q-input rounded outlined bg-color="white" class="inputChat" v-model="person" label="New chat with..." />
-        <q-btn round color="primary" icon="send" @click="newPerson(person)"/>
-        <br>
-        <q-select rounded outlined :options="people" v-model="selected" class="inputChat" label="Selecione a conversa" @input="selecionado" bg-color="white"/>
-      </div>
-      <div class="talk">
+      <div class="talk q-ml-xl">
         <ul>
           <li class="boxMessage" v-for="message in messages" :key="message">
             {{message.msg}}
           </li>
         </ul>
       </div>
-      <div class="panel q-ml-lg q-mt-sm q-gutter-sm q-mb-md horizontal-align">
+      <div class="panel q-ml-lg q-mt-sm q-gutter-md q-mb-md horizontal-align">
         <q-input rounded outlined bg-color="white" class="inputChat" v-model="message" label="Type your message" />
         <q-btn round color="primary" icon="send" @click="send(message, person)"/>
       </div>
@@ -25,8 +33,12 @@
 <script>
 import * as firebase from 'firebase/app'
 import 'firebase/database'
+import card from 'components/card.vue'
 export default {
   name: 'PageIndex',
+  components: {
+    card
+  },
   data () {
     return {
       messages: [],
@@ -128,13 +140,10 @@ export default {
 }
 .chat{
   width 100%;
-  height 100% !important
+  height calc(100vh + 100%) !important
   position: relative;
 }
 .new-friend{
-}
-.talk{
-  margin-left 5%
 }
 ul{
   margin: 0;
@@ -161,6 +170,9 @@ li{
 }
 .horizontal-align{
   align-items center
+}
+.talk{
+  height 90%
 }
 .panel{
   display: flex;
