@@ -1,17 +1,23 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar class="row">
-        <q-toolbar-title class="col-md-10 col-sm-6">
-          Quasar App
-        </q-toolbar-title>
-        <div class="row col-md-2 col-xs-6 justify-around">
-          <div><q-btn to="/" label="Chat"/></div>
-          <div><q-btn to="/ToDo" label="To Do List"/></div>
+  <q-layout>
+    <div class="header row col-12">
+      <q-toolbar class="bg-grey-10 text-white">
+        <div class="col-md-10 col-sm-12 col-xs-8">
+          <q-toolbar-title>
+            XXNomeDoProjeto
+          </q-toolbar-title>
+        </div>
+        <div class="row col-md-2 col-sm-2 col-xs-4 justify-around">
+          <div class="col-6">
+            <q-btn flat label="Chat" to="/"/>
+          </div>
+          <div class="col-6">
+            <q-btn flat label="To Do List" to="/ToDo" />
+          </div>
         </div>
       </q-toolbar>
-    </q-header>
-    <q-page-container>
+    </div>
+    <q-page-container class="pageHeight">
       <router-view />
     </q-page-container>
   </q-layout>
@@ -33,4 +39,11 @@ export default {
 </script>
 
 <style>
+  .header{
+    height: 8vh;
+  }
+  .pageHeight{
+    height: 92vh;
+    background-color: #424242;
+  }
 </style>

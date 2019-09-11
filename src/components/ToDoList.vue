@@ -1,8 +1,8 @@
 <template>
-  <section class="q-mt-md">
+  <section class="q-mt-md bg-grey-9">
     <div class="row col-md-12 justify-center q-gutter-md">
-      <q-btn icon="add" @click="novo" color="primary" flat round small />
-      <q-btn :label="mostrar ? 'Mostrar somente pendentes' : 'Mostrar todos'" @click="show" />
+      <q-btn icon="add" @click="novo" class="bg-grey-4" color="grey-10" flat round small />
+      <q-btn :label="mostrar ? 'Mostrar somente pendentes' : 'Mostrar todos'" @click="show" class="bg-grey-4"/>
     </div>
     <section class="row justify-center q-mt-md">
     <div class="col-md-8">
@@ -20,11 +20,11 @@
                 <div class="col-12 q-mt-md">
                   <div class="row col-12 justify-between">
                     <div class="col-md-9 col-sm-9 col-xs-7">
-                      <q-btn icon="color_lens" round color="grey-8" flat small>
+                      <q-btn icon="color_lens" round color="grey-9" flat small>
                         <q-popup-proxy>
                           <q-banner inline-actions rounded class="bg-grey-4 text-white">
                             <div class="q-pa-lg">
-                                <q-option-group class="text-black" v-model="item.cor" :options="options" :color="item.cor" inline dense @input="atualiza(item, 'cor')" />
+                                <q-option-group class="text-black" v-model="item.cor" :options="options" color="grey-9" inline dense @input="atualiza(item, 'cor')" />
                               </div>
                           </q-banner>
                         </q-popup-proxy>
@@ -32,10 +32,10 @@
                     </div>
                     <div class="row col-md-3 col-sm-3 col-xs-5">
                       <div class="col-md-8 col-sm-10 col-xs-10">
-                        <q-checkbox v-model="item.pronto" @input="atualiza(item, 'pronto')" :label="item.pronto ? 'Concluída' : 'Pendente'" color="grey-8"/>
+                        <q-checkbox v-model="item.pronto" @input="atualiza(item, 'pronto')" :label="item.pronto ? 'Concluída' : 'Pendente'" color="grey-9"/>
                       </div>
                       <div class="col-md-4 col-sm-2 col-xs-2">
-                        <q-btn round flat small icon="delete" color="grey-8" @click="apaga(index)" />
+                        <q-btn round flat small icon="delete" color="grey-9" @click="apaga(index)" />
                       </div>
                     </div>
                   </div>
@@ -60,6 +60,10 @@ export default {
       mostrar: true,
       lista: [],
       options: [
+        {
+          label: 'Padrão',
+          value: '#e0e0e0'
+        },
         {
           label: 'Branco',
           value: '#fff'
@@ -86,7 +90,7 @@ export default {
   methods: {
     novo () {
       let key = firebase.database().ref().child('tasks').push().key
-      firebase.database().ref('tasks/' + key).set({ texto: '', descricao: '', pronto: false, cor: '', key })
+      firebase.database().ref('tasks/' + key).set({ texto: '', descricao: '', pronto: false, cor: '#e0e0e0', key })
     },
     show () {
       this.mostrar = !this.mostrar
