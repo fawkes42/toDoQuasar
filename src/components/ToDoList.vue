@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-12 q-mt-md">
                   <div class="row col-12 justify-between">
-                    <div class="col-9">
+                    <div class="col-md-9 col-sm-9 col-xs-7">
                       <q-btn icon="color_lens" round color="grey-8" flat small>
                         <q-popup-proxy>
                           <q-banner inline-actions rounded class="bg-grey-4 text-white">
@@ -30,11 +30,11 @@
                         </q-popup-proxy>
                       </q-btn>
                     </div>
-                    <div class="row col-3">
-                      <div class="col-6">
+                    <div class="row col-md-3 col-sm-3 col-xs-5">
+                      <div class="col-md-8 col-sm-10 col-xs-10">
                         <q-checkbox v-model="item.pronto" @input="atualiza(item, 'pronto')" :label="item.pronto ? 'Concluída' : 'Pendente'" color="grey-8"/>
                       </div>
-                      <div class="col-6">
+                      <div class="col-md-4 col-sm-2 col-xs-2">
                         <q-btn round flat small icon="delete" color="grey-8" @click="apaga(index)" />
                       </div>
                     </div>
