@@ -2,10 +2,10 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
+    component: () => import('layouts/MenuDefault.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: 'ToDo', component: () => import('pages/ToDo.vue') }
+      { path: '', component: () => import('pages/ToDo.vue') },
+      { path: 'Chat', component: () => import('pages/Chat.vue') }
     ]
   }
 ]

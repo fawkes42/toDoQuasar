@@ -9,10 +9,10 @@
         </div>
         <div class="row col-md-2 col-sm-2 col-xs-4 justify-around">
           <div class="col-6">
-            <q-btn flat label="Chat" to="/"/>
+            <q-btn flat label="Chat" to="/Chat"/>
           </div>
           <div class="col-6">
-            <q-btn flat label="To Do List" to="/ToDo" />
+            <q-btn flat label="To Do List" to="/" />
           </div>
         </div>
       </q-toolbar>
