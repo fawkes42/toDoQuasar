@@ -5,11 +5,7 @@
 <script>
 import ToDoList from 'components/ToDoList'
 export default {
-  components: { ToDoList },
-  data () {
-    return {
-    }
-  }
+  components: { ToDoList }
 }
 </script>
 <style>

@@ -17,7 +17,7 @@
     <div class="chat">
       <div class="talk q-ml-xl">
         <ul>
-          <li class="boxMessage" v-for="message in messages" :key="message">
+          <li class="boxMessage" v-for="(message, index) in messages" :key="index">
             {{message.msg}}
           </li>
         </ul>
@@ -64,10 +64,6 @@ export default {
     carregaPeople (snapshot) {
       this.people = []
       let names = snapshot.val()
-      console.log(names)
-      // names.forEach((prop, index) => {
-      //  this.people.push({ label: names[prop].name, value: index })
-      // })
       for (let prop in names) {
         this.people.push({ label: names[prop].name, value: names[prop].key })
       }

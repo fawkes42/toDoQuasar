@@ -124,7 +124,7 @@ export default {
     }
   },
   mounted () {
-    firebase.database().ref('tasks').once('value').then(snapshot => {
+    firebase.database().ref('tasks').once('value', snapshot => {
       this.carrega(snapshot)
     })
     firebase.database().ref('tasks').on('value', snapshot => {
