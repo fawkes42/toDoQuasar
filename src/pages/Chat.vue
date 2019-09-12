@@ -2,16 +2,16 @@
   <q-page class="flex flex-center bg-grey-9">
     <card>
       <template #header>
-        <p><strong class="text-black q-ml-sm">Add a talk</strong></p>
+        <p><strong class="q-ml-sm">Add a talk</strong></p>
       </template>
       <template #content>
         <div class="flex horizontal-align q-gutter-sm">
-          <q-input rounded outlined bg-color="white" v-model="person" label="New chat with..." />
-          <q-btn round color="primary" icon="send" @click="newPerson(person)"/>
+          <q-input rounded outlined bg-color="grey-4" color="secondary" v-model="person" label="New chat with..." />
+          <q-btn round color="secondary" icon="send" @click="newPerson(person)"/>
         </div>
       </template>
       <template #footer>
-        <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="white"/>
+        <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="grey-4" color="secondary" />
       </template>
     </card>
     <div class="chat">
@@ -23,8 +23,8 @@
         </ul>
       </div>
       <div class="panel q-ml-lg q-mt-sm q-gutter-md q-mb-md horizontal-align">
-        <q-input rounded outlined bg-color="white" class="inputChat" v-model="message" label="Type your message" />
-        <q-btn round color="primary" icon="send" @click="send(message, person)"/>
+        <q-input rounded outlined color="secondary" bg-color="grey-4" class="inputChat" v-model="message" label="Type your message" />
+        <q-btn round color="secondary" icon="send" @click="send(message, person)"/>
       </div>
     </div>
   </q-page>
@@ -95,25 +95,6 @@ export default {
     }
   },
   mounted () {
-    // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: 'AIzaSyB3TEPR45_pGvzofu8Oxj6iJ4dYWl0KHl4',
-      authDomain: 'to-do-list-d3aa5.firebaseapp.com',
-      databaseURL: 'https://to-do-list-d3aa5.firebaseio.com',
-      projectId: 'to-do-list-d3aa5',
-      storageBucket: 'to-do-list-d3aa5.appspot.com',
-      messagingSenderId: '832078297256',
-      appId: '1:832078297256:web:e8b3378c74d8261b'
-    }
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig)
-    firebase.database().ref('tasks').once('value').then(snapshot => {
-      this.carrega(snapshot)
-    })
-    firebase.database().ref('tasks').on('value', snapshot => {
-      this.carrega(snapshot)
-    })
-
     firebase.database().ref('chat').once('value').then(snapshot => {
       this.carregaChat(snapshot)
     })

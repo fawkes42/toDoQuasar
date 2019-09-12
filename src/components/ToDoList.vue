@@ -98,9 +98,6 @@ export default {
     apaga (i) {
       console.log(i)
       firebase.database().ref('tasks/' + i).remove() // aqui eu removi o this.lista[i]).key e coloquei o i que é a key para apagar o item exato mesmo mostrando apenas pendentes
-      if (this.lista.length <= 1) {
-        this.show()
-      }
     },
     atualiza (item, campo) {
       firebase.database().ref('tasks/' + item.key + '/' + campo).set(item[campo])
@@ -127,18 +124,6 @@ export default {
     }
   },
   mounted () {
-  // Your web app's Firebase configuration
-    var firebaseConfig = {
-      apiKey: 'AIzaSyB3TEPR45_pGvzofu8Oxj6iJ4dYWl0KHl4',
-      authDomain: 'to-do-list-d3aa5.firebaseapp.com',
-      databaseURL: 'https://to-do-list-d3aa5.firebaseio.com',
-      projectId: 'to-do-list-d3aa5',
-      storageBucket: 'to-do-list-d3aa5.appspot.com',
-      messagingSenderId: '832078297256',
-      appId: '1:832078297256:web:e8b3378c74d8261b'
-    }
-    // Initialize Firebase
-    firebase.initializeApp(firebaseConfig)
     firebase.database().ref('tasks').once('value').then(snapshot => {
       this.carrega(snapshot)
     })

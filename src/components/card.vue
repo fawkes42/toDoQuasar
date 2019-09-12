@@ -1,15 +1,14 @@
 <template>
-    <q-card class="my-card bg-grey-2 text-white">
+    <q-card class="my-card transparent text-grey-4">
       <q-card-section>
         <slot name="header"/>
       </q-card-section>
       <q-card-section>
         <slot name="content"></slot>
       </q-card-section>
-      <q-separator dark />
-      <q-card-actions>
+      <q-card-section>
         <slot name="footer"></slot>
-      </q-card-actions>
+      </q-card-section>
     </q-card>
 </template>
 
@@ -30,4 +29,6 @@ export default ({
   .my-card
     padding 20px
     width 50%
+    border none
+    box-shadow none
 </style>
