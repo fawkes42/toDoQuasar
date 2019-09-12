@@ -35,7 +35,7 @@
                         <q-checkbox v-model="item.pronto" @input="atualiza(item, 'pronto')" :label="item.pronto ? 'Concluída' : 'Pendente'" color="grey-9"/>
                       </div>
                       <div class="col-md-4 col-sm-2 col-xs-2">
-                        <q-btn round flat small icon="delete" color="grey-9" @click="apaga(index)" />
+                        <q-btn round flat small icon="delete" v-model="item.key" color="grey-9" @click="apaga(item.key)" />
                       </div>
                     </div>
                   </div>
@@ -96,7 +96,11 @@ export default {
       this.mostrar = !this.mostrar
     },
     apaga (i) {
-      firebase.database().ref('tasks/' + this.lista[i].key).remove()
+      console.log(i)
+      firebase.database().ref('tasks/' + i).remove() // aqui eu removi o this.lista[i]).key e coloquei o i que é a key para apagar o item exato mesmo mostrando apenas pendentes
+      if (this.lista.length <= 1) {
+        this.show()
+      }
     },
     atualiza (item, campo) {
       firebase.database().ref('tasks/' + item.key + '/' + campo).set(item[campo])
@@ -105,7 +109,7 @@ export default {
       this.lista = []
       let valores = snapshot.val()
       for (let prop in valores) {
-        this.lista.push({
+        this.lista.unshift({ // Aqui eu troquei de push para unshift, o push jogava o item no final e não no início, como era esperado
           key: prop,
           texto: valores[prop].texto,
           descricao: valores[prop].descricao,

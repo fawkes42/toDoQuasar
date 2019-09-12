@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center bg-grey-9">
     <card>
       <template #header>
         <p><strong class="text-black q-ml-sm">Add a talk</strong></p>
@@ -11,7 +11,7 @@
         </div>
       </template>
       <template #footer>
-         <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="white"/>
+        <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="white"/>
       </template>
     </card>
     <div class="chat">
@@ -132,18 +132,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.flex-center{
-  width 100%
-  height 100%
-  position relative
-  background-color:#343434
-}
 .chat{
   width 100%;
-  height calc(100vh + 100%) !important
   position: relative;
-}
-.new-friend{
 }
 ul{
   margin: 0;
@@ -170,9 +161,6 @@ li{
 }
 .horizontal-align{
   align-items center
-}
-.talk{
-  height 90%
 }
 .panel{
   display: flex;
