@@ -1,43 +1,55 @@
 <template>
-  <q-page class="flex flex-center bg-grey-9">
-    <card>
-      <template #header>
-        <p><strong class="q-ml-sm">Add a talk</strong></p>
-      </template>
+  <q-page class="flex-center bg-grey-9">
+    <chat-card>
       <template #content>
-        <div class="flex horizontal-align q-gutter-sm">
-          <q-input rounded outlined bg-color="grey-4" color="secondary" v-model="person" label="New chat with..." />
-          <q-btn round color="secondary" icon="send" @click="newPerson(person)"/>
-        </div>
+        <section>
+          <div class="row q-gutter-md items-center">
+            <div class="col-6">
+              <q-input rounded outlined bg-color="grey-4" color="secondary" v-model="person" label="New chat with..." />
+            </div>
+            <div class="col-1">
+              <q-btn round color="secondary" icon="send" @click="newPerson(person)"/>
+            </div>
+          </div>
+        </section>
       </template>
       <template #footer>
-        <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="grey-4" color="secondary" />
+        <section class="row">
+          <div class="col-7">
+            <q-select rounded outlined :options="people" v-model="selected" class="q-mt-md" label="Talk with:" @input="selecionado" bg-color="grey-4" color="secondary" />
+          </div>
+        </section>
       </template>
-    </card>
-    <div class="chat">
-      <div class="talk q-ml-xl">
-        <ul>
-          <li class="boxMessage" v-for="(message, index) in messages" :key="index">
-            {{message.msg}}
-          </li>
-        </ul>
-      </div>
-      <div class="panel q-ml-lg q-mt-sm q-gutter-md q-mb-md horizontal-align">
-        <q-input rounded outlined color="secondary" bg-color="grey-4" class="inputChat" v-model="message" label="Type your message" />
-        <q-btn round color="secondary" icon="send" @click="send(message, person)"/>
-      </div>
-    </div>
+    </chat-card>
+    <section class="row col-12 justify-center q-pa-lg">
+        <div class="col-12">
+          <ul class="col-6">
+            <li class="boxMessage" v-for="(message, index) in messages" :key="index">
+              {{message.msg}}
+            </li>
+          </ul>
+        </div>
+        <div class="row col-12 items-center q-gutter-md panel">
+          <div class="col-md-6 col-sm-8 col-xs-10">
+            <q-input rounded outlined color="secondary" bg-color="grey-4" v-model="message" label="Type your message" />
+          </div>
+          <div class="col-1">
+            <q-btn round color="secondary" icon="send" @click="send(message, person)"/>
+          </div>
+        </div>
+    </section>
   </q-page>
 </template>
 
 <script>
 import * as firebase from 'firebase/app'
 import 'firebase/database'
-import card from 'components/card.vue'
+import ChatCard from 'components/card.vue'
+import utils from 'src/utils.js'
 export default {
   name: 'PageIndex',
   components: {
-    card
+    ChatCard
   },
   data () {
     return {
@@ -90,62 +102,56 @@ export default {
       }
     }
   },
-  mounted () {
-    firebase.database().ref('chat').once('value').then(snapshot => {
+  async mounted () {
+    try {
+      let snapshot = await utils.once(firebase, 'chat', 'value')
       this.carregaChat(snapshot)
-    })
-    firebase.database().ref('chat').on('value', snapshot => {
+    } catch (erro) {
+      console.log('este é o erro: ', erro)
+    }
+    try {
+      let snapshot = await utils.on(firebase, 'chat', 'value')
       this.carregaChat(snapshot)
-    })
-
-    firebase.database().ref('person').once('value').then(snapshot => {
+    } catch (erro) {
+      console.log('este é o erro: ', erro)
+    }
+    try {
+      let snapshot = await utils.once(firebase, 'person', 'value')
       this.carregaPeople(snapshot)
-    })
-    firebase.database().ref('person').on('value', snapshot => {
+    } catch (erro) {
+      console.log('este é o erro: ', erro)
+    }
+    try {
+      let snapshot = await utils.on(firebase, 'person', 'value')
       this.carregaPeople(snapshot)
-    })
+    } catch (erro) {
+      console.log('este é o erro: ', erro)
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.chat{
-  width 100%;
-  position: relative;
-}
-ul{
-  margin: 0;
-  padding: 0;
-}
-li{
-  list-style: none;
-  margin-top: 10px;
-  padding: 10px;
-  background-color: white;
-  border-radius: 10px;
-  width: max-content;
-}
-.boxMessage{
-  position: relative;
-}
-.boxMessage:before{
-  content: "";
-  position: absolute;
-  border-left: 20px solid transparent;
-  border-top: 30px solid white;
-  top: 0px;
-  left: -12px;
-}
-.horizontal-align{
-  align-items center
-}
-.panel{
-  display: flex;
-  position sticky
-  bottom: 0;
-  left 0;
-}
-.inputChat{
-  width 55%
-}
+  li{
+    list-style: none;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    width: max-content;
+  }
+  .boxMessage{
+    position: relative;
+  }
+  .boxMessage:before{
+    content: "";
+    position: absolute;
+    border-left: 20px solid transparent;
+    border-top: 30px solid white;
+    top: 0px;
+    left: -12px;
+  }
+  .horizontal-align{
+    align-items center
+  }
 </style>

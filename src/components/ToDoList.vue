@@ -19,7 +19,7 @@
                 </div>
                 <div class="col-12 q-mt-md">
                   <div class="row col-12 justify-between">
-                    <div class="col-md-9 col-sm-9 col-xs-7">
+                    <div class="col-md-9 col-sm-9 col-xs-6">
                       <q-btn icon="color_lens" round color="grey-9" flat small>
                         <q-popup-proxy>
                           <q-banner inline-actions rounded class="bg-grey-4 text-white">
@@ -30,11 +30,11 @@
                         </q-popup-proxy>
                       </q-btn>
                     </div>
-                    <div class="row col-md-3 col-sm-3 col-xs-5">
-                      <div class="col-md-8 col-sm-10 col-xs-10">
+                    <div class="row col-md-3 col-sm-3 col-xs-6">
+                      <div class="col-md-8 col-sm-10 col-xs-9">
                         <q-checkbox v-model="item.pronto" @input="atualiza(item, 'pronto')" :label="item.pronto ? 'Concluída' : 'Pendente'" color="grey-9"/>
                       </div>
-                      <div class="col-md-4 col-sm-2 col-xs-2">
+                      <div class="col-md-4 col-sm-2 col-xs-3">
                         <q-btn round flat small icon="delete" v-model="item.key" color="grey-9" @click="apaga(item.key)" />
                       </div>
                     </div>
@@ -52,6 +52,7 @@
 
 <script>
 import firebase from 'firebase/app'
+import utils from 'src/utils.js'
 import 'firebase/database'
 export default {
   data () {
@@ -123,13 +124,25 @@ export default {
       })
     }
   },
-  mounted () {
-    firebase.database().ref('tasks').once('value', snapshot => {
+  async mounted () {
+    // ESSA É OUTRA POSSIBILIDADE DE USAR UMA PROMISE MAS LEMBRAR DE TIRAR O ASYNC QUE SERIA INUTILIZADO
+    // utils.once(firebase, 'tasks', '').then(snapshot => {
+    //   this.carrega(snapshot)
+    // }).catch(erro => {
+    //   console.log('este é o erro', erro)
+    // })
+    try {
+      let snapshot = await utils.once(firebase, 'tasks', 'value')
       this.carrega(snapshot)
-    })
-    firebase.database().ref('tasks').on('value', snapshot => {
+    } catch (erro) {
+      console.log('este é o erro: ', erro)
+    }
+    try {
+      let snapshot = await utils.on(firebase, 'tasks', 'value')
       this.carrega(snapshot)
-    })
+    } catch (erro) {
+      console.log('este é o erro: ', erro)
+    }
   }
 }
 </script>
