@@ -97,7 +97,6 @@ export default {
       this.mostrar = !this.mostrar
     },
     apaga (i) {
-      console.log(i)
       firebase.database().ref('tasks/' + i).remove() // aqui eu removi o this.lista[i]).key e coloquei o i que é a key para apagar o item exato mesmo mostrando apenas pendentes
     },
     atualiza (item, campo) {
@@ -137,12 +136,9 @@ export default {
     } catch (erro) {
       console.log('este é o erro: ', erro)
     }
-    try {
-      let snapshot = await utils.on(firebase, 'tasks', 'value')
+    firebase.database().ref('tasks').on('value', snapshot => {
       this.carrega(snapshot)
-    } catch (erro) {
-      console.log('este é o erro: ', erro)
-    }
+    })
   }
 }
 </script>

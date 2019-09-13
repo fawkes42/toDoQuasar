@@ -52,7 +52,7 @@ export default {
     height: 8%;
   }
   .pageHeight{
-    height: 92%;
+    height: 92vh;
     background-color: #424242;
   }
   .router{

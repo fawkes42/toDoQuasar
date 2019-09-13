@@ -109,24 +109,18 @@ export default {
     } catch (erro) {
       console.log('este é o erro: ', erro)
     }
-    try {
-      let snapshot = await utils.on(firebase, 'chat', 'value')
+    firebase.database().ref('chat').on('value', snapshot => {
       this.carregaChat(snapshot)
-    } catch (erro) {
-      console.log('este é o erro: ', erro)
-    }
+    })
     try {
       let snapshot = await utils.once(firebase, 'person', 'value')
       this.carregaPeople(snapshot)
     } catch (erro) {
       console.log('este é o erro: ', erro)
     }
-    try {
-      let snapshot = await utils.on(firebase, 'person', 'value')
+    firebase.database().ref('person').on('value', snapshot => {
       this.carregaPeople(snapshot)
-    } catch (erro) {
-      console.log('este é o erro: ', erro)
-    }
+    })
   }
 }
 </script>
