@@ -19,10 +19,7 @@ export default ({
   data () {
     return {
     }
-  },
-  props: [
-    'lorem'
-  ]
+  }
 })
 </script>
 

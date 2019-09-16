@@ -47,7 +47,6 @@ import 'firebase/database'
 import ChatCard from 'components/card.vue'
 import utils from 'src/utils.js'
 export default {
-  name: 'PageIndex',
   components: {
     ChatCard
   },
